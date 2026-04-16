@@ -37,8 +37,32 @@ This project is designed for machine learning applications, focusing on data ing
 
 ## Usage
 
-Run the application using:
+Run the application locally using Python:
 
 ```bash
 python app.py
 ```
+
+## 🚀 Running with Docker
+If you want to run the application in an isolated container:
+
+```bash
+# Build the image
+docker build -t my-ai-resume-app .
+
+# Run the container (connecting to local Ollama)
+docker run -p 8501:8501 -e OLLAMA_BASE_URL="http://host.docker.internal:11434" my-ai-resume-app
+```
+
+## 🏗️ Infrastructure as Code (Terraform)
+This project includes a local Terraform setup to orchestrate the Docker container natively. To deploy using Terraform, ensure you have Docker Desktop running:
+
+```bash
+cd terraform
+terraform init
+terraform apply -auto-approve
+```
+The Streamlit application will be automatically built and become accessible at `http://localhost:8501`.
+
+## ⚙️ CI/CD Pipeline
+This repository uses **GitHub Actions** for Continuous Integration. Every push and pull request to the `main` branch automatically triggers a robust pipeline (`.github/workflows/docker-build.yml`) that verifies the environment and builds the Docker image to ensure the codebase remains stable.

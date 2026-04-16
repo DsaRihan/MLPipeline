@@ -2,6 +2,7 @@ import streamlit as st
 from langchain_community.llms import Ollama
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
+import os
 
 # --- THE NEW FIX IS RIGHT HERE ---
 from langchain_classic.chains import create_retrieval_chain
@@ -27,7 +28,8 @@ def load_pipeline():
     retriever = vector_db.as_retriever(search_kwargs={"k": 3})
     
     # 4. Connect to the Tiny Llama Model
-    llm = Ollama(model="llama3.2:1b")
+    ollama_base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    llm = Ollama(model="llama3.2:1b", base_url=ollama_base_url)
     
     # 5. Build the LangChain Pipeline
     prompt = PromptTemplate.from_template(
